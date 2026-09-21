@@ -85,4 +85,4 @@ cd teleport
 make build/teleport
 ```
 
-To enable RDP NLA when launching Teleport, set the `TELEPORT_ENABLED_RDP_NLA` environment variable.
+To enable RDP NLA when launching Teleport, set the `TELEPORT_ENABLE_RDP_NLA="yes"` environment variable.
