@@ -1,0 +1,88 @@
+# IAKerb Feature Setup Guide
+
+## Windows 11 Insider Build Setup
+
+1. Enroll in the [Windows Insider Program](https://www.microsoft.com/en-us/software-download/windowsinsiderpreviewiso).
+2. Download and install the **Experimental (Build 29xxx.xxxx) - Future Platforms** edition.
+3. Follow the [Configure Access for Local Windows Users](https://goteleport.com/docs/enroll-resources/desktop-access/getting-started/) guide.
+
+After performing this setup, follow additional steps to enable IAKerb feature
+(these tasks can be automated in the Teleport Windows Auth Installer later):
+
+1. Enable NLA (Network Level Authentication) for Remote Desktop:
+   - Open System Properties.
+   - Go to the Remote Desktop tab.
+   - Enable the option to allow connections only from computers using NLA.
+2. Enable the IAKerb feature by importing the registry settings from [`ntlmless_feat.reg`](ntlmless_feat.reg).
+3. Download and install the Teleport CA CRL:
+```
+curl.exe -fo teleport.cer https://teleport.example.com/webapi/auth/crl`
+certutil -addstore CA crl.crl.
+```
+5. Generate the KDC Authentication certificate. Use the [`kdc_auth_cert/cert_gen.ps1`](kdc_auth_cert/cert_gen.ps1) script.
+
+## Teleport client configuration
+
+Add the Windows host to the Teleport configuration:
+
+```yaml
+  static_hosts:
+    - name: "Windows 11 IAKerb"
+      ad: false
+      addr: 192.168.10.10
+      sid: "S-1-5-...-1001"
+      labels:
+        teleport.dev/computer_name: "DESKTOP-063RJLL"
+```
+
+Replace the example `address`, `SID`, and `computer name` with the values for your Windows host.
+
+To get the user SID, run:
+
+```
+whoami /user
+```
+
+The Windows login must also be added in the windows_desktop_logins list. For example:
+
+```yaml
+kind: role
+version: v5
+metadata:
+  name: windows-desktop-admins
+spec:
+  allow:
+    windows_desktop_labels:
+      "*": "*"
+    windows_desktop_logins: ["Administrator", "User123"]
+```
+
+## Build the Teleport
+
+Clone all repositories into the same parent directory:
+
+```
+mkdir teleport-iakerb
+cd teleport-iakerb
+
+git clone https://github.com/Rostyslav-Romanets/picky-rs
+git -C picky-rs checkout add-iakerb-messages
+
+git clone https://github.com/Rostyslav-Romanets/sspi-rs
+git -C sspi-rs checkout ia-kerb-support
+
+git clone https://github.com/Rostyslav-Romanets/IronRDP
+git -C IronRDP checkout add-iakerb-support
+
+git clone https://github.com/Rostyslav-Romanets/teleport
+git -C teleport checkout nla-kerb-for-local-accounts
+```
+
+Build the Teleport client:
+
+```
+cd teleport
+make build/teleport
+```
+
+To enable RDP NLA when launching Teleport, set the `TELEPORT_ENABLED_RDP_NLA` environment variable.

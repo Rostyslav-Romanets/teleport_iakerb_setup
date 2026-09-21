@@ -1,0 +1,13 @@
+[req]
+distinguished_name = dn
+prompt = no
+
+[dn]
+CN = KDC CERT
+
+[v3_kdc]
+basicConstraints = CA:false
+keyUsage = critical, digitalSignature, keyEncipherment
+extendedKeyUsage = 1.3.6.1.5.2.3.5
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid,issuer

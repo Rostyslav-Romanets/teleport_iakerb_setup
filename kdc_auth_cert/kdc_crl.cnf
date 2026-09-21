@@ -1,0 +1,10 @@
+[ca]
+default_ca = CA_default
+
+[CA_default]
+database = C:/localkdc/index.txt
+crlnumber = C:/localkdc/crlnumber
+certificate = kdc_root_ca.crt
+private_key = kdc_root_ca.key
+default_crl_days = 365
+default_md = sha256

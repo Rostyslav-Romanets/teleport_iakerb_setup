@@ -1,0 +1,13 @@
+[req]
+distinguished_name = dn
+x509_extensions = v3_ca
+prompt = no
+
+[dn]
+CN = KDC Root CA
+
+[v3_ca]
+basicConstraints = critical, CA:true
+keyUsage = critical, keyCertSign, cRLSign
+extendedKeyUsage = 1.3.6.1.5.2.3.5
+subjectKeyIdentifier = hash
