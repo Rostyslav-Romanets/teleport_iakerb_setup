@@ -14,12 +14,12 @@ After performing this setup, follow additional steps to enable IAKerb feature
    - Go to the Remote Desktop tab.
    - Enable the option to allow connections only from computers using NLA.
 2. Enable the IAKerb feature by importing the registry settings from [`ntlmless_feat.reg`](ntlmless_feat.reg).
-3. Download and install the Teleport CA CRL:
+3. Build the patched version of Teleport (see [Build the Teleport](#build-the-teleport)), then download and install the Teleport CA CRL
 ```
-curl.exe -fo teleport.cer https://teleport.example.com/webapi/auth/crl`
+curl.exe -fo crl.crl https://teleport.example.com/webapi/auth/crl`
 certutil -addstore CA crl.crl.
 ```
-5. Generate the KDC Authentication certificate. Use the [`kdc_auth_cert/cert_gen.ps1`](kdc_auth_cert/cert_gen.ps1) script.
+4. Generate the KDC Authentication certificate. Use the [`kdc_auth_cert/cert_gen.ps1`](kdc_auth_cert/cert_gen.ps1) script.
 
 ## Teleport client configuration
 
