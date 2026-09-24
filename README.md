@@ -77,7 +77,7 @@ git clone https://github.com/Rostyslav-Romanets/sspi-rs
 git -C sspi-rs checkout ia-kerb-support
 
 git clone https://github.com/Rostyslav-Romanets/IronRDP
-git -C IronRDP checkout iakerb-smart-card-login-fix
+git -C IronRDP checkout add-iakerb-support
 
 git clone https://github.com/Rostyslav-Romanets/teleport
 git -C teleport checkout nla-kerb-for-local-accounts
