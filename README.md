@@ -64,25 +64,6 @@ spec:
 
 ## Build the Teleport
 
-Clone all repositories into the same parent directory:
-
-```
-mkdir teleport-iakerb
-cd teleport-iakerb
-
-git clone https://github.com/Rostyslav-Romanets/picky-rs
-git -C picky-rs checkout add-iakerb-messages
-
-git clone https://github.com/Rostyslav-Romanets/sspi-rs
-git -C sspi-rs checkout ia-kerb-support
-
-git clone https://github.com/Rostyslav-Romanets/IronRDP
-git -C IronRDP checkout add-iakerb-support
-
-git clone https://github.com/Rostyslav-Romanets/teleport
-git -C teleport checkout nla-kerb-for-local-accounts
-```
-
 Build the Teleport client:
 
 ```
